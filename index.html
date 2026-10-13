@@ -1,0 +1,673 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#09090f">
+<title>AXON | Tournament Arena</title>
+
+<style>
+:root {
+  --bg: #09090f;
+  --panel: #13131f;
+  --purple: #a855f7;
+  --pink: #e879f9;
+  --text: #f7f4ff;
+  --muted: #9995ad;
+  --border: #292438;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: Arial, Helvetica, sans-serif;
+  padding-bottom: 85px;
+}
+
+header {
+  height: 66px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 18px;
+  border-bottom: 1px solid var(--border);
+  background: #0d0b15;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+.logo {
+  font-size: 27px;
+  font-weight: 900;
+  letter-spacing: 4px;
+  color: white;
+}
+
+.logo span {
+  color: var(--purple);
+}
+
+.help {
+  border: 1px solid #49335f;
+  color: #e9c8ff;
+  padding: 9px 12px;
+  border-radius: 9px;
+  background: #1b1427;
+  font-size: 12px;
+}
+
+main {
+  max-width: 720px;
+  margin: auto;
+  padding: 18px 14px;
+}
+
+.hero {
+  min-height: 190px;
+  padding: 25px 20px;
+  border: 1px solid #6331a0;
+  border-radius: 18px;
+  background:
+    radial-gradient(ellipse at 90% 10%, #6424a7 0%, transparent 45%),
+    linear-gradient(135deg, #211034, #100d1b 65%, #241036);
+  overflow: hidden;
+  position: relative;
+}
+
+.hero-tag {
+  color: #e5b9ff;
+  font-size: 11px;
+  font-weight: bold;
+  letter-spacing: 2px;
+  margin-bottom: 13px;
+}
+
+.hero h1 {
+  font-size: clamp(27px, 7vw, 38px);
+  line-height: 1.15;
+  margin-bottom: 10px;
+}
+
+.hero h1 span {
+  color: var(--pink);
+}
+
+.hero p {
+  color: #d1c4df;
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+.section-title {
+  font-size: 18px;
+  margin: 27px 0 14px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.section-title small {
+  color: var(--muted);
+  font-size: 11px;
+  font-weight: normal;
+}
+
+.categories {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 11px;
+}
+
+.category {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 13px;
+  padding: 17px 13px;
+  min-height: 100px;
+  cursor: pointer;
+  text-align: left;
+  color: white;
+}
+
+.category:active {
+  border-color: var(--purple);
+  transform: scale(.98);
+}
+
+.category .icon {
+  font-size: 25px;
+  margin-bottom: 11px;
+}
+
+.category h3 {
+  font-size: 13px;
+  margin-bottom: 5px;
+}
+
+.category p {
+  color: var(--muted);
+  font-size: 11px;
+}
+
+.tabs {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 14px;
+}
+
+.tab {
+  flex: 1;
+  padding: 11px 5px;
+  color: var(--muted);
+  border: 1px solid var(--border);
+  background: #11101a;
+  border-radius: 9px;
+  font-size: 12px;
+  cursor: pointer;
+}
+
+.tab.active {
+  color: white;
+  border-color: var(--purple);
+  background: #28143d;
+}
+
+.match {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  margin-bottom: 12px;
+  overflow: hidden;
+}
+
+.match-top {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  align-items: center;
+  padding: 15px 14px 12px;
+}
+
+.match h3 {
+  font-size: 15px;
+  margin-bottom: 7px;
+}
+
+.mode {
+  font-size: 11px;
+  color: var(--muted);
+}
+
+.badge {
+  font-size: 10px;
+  padding: 6px 8px;
+  border-radius: 6px;
+  background: #29203a;
+  color: #dcb8ff;
+  white-space: nowrap;
+}
+
+.match-details {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  border-top: 1px solid var(--border);
+  padding: 13px 10px;
+  gap: 4px;
+}
+
+.detail {
+  text-align: center;
+}
+
+.detail small {
+  display: block;
+  color: var(--muted);
+  font-size: 10px;
+  margin-bottom: 6px;
+}
+
+.detail strong {
+  font-size: 13px;
+}
+
+.match-bottom {
+  padding: 0 12px 13px;
+}
+
+.join {
+  width: 100%;
+  border: 0;
+  padding: 12px;
+  border-radius: 9px;
+  color: white;
+  background: linear-gradient(100deg, #792bd1, #ad45e8);
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.empty {
+  padding: 24px 12px;
+  color: var(--muted);
+  font-size: 13px;
+  text-align: center;
+  border: 1px dashed var(--border);
+  border-radius: 12px;
+  line-height: 1.7;
+}
+
+.page {
+  display: none;
+}
+
+.page.active {
+  display: block;
+}
+
+.profile-box {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 20px;
+}
+
+.profile-box label {
+  display: block;
+  font-size: 12px;
+  color: var(--muted);
+  margin: 15px 0 7px;
+}
+
+.profile-box input {
+  width: 100%;
+  padding: 12px;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  background: #09090f;
+  color: white;
+}
+
+.bottom-nav {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 68px;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  background: #100e18;
+  border-top: 1px solid var(--border);
+  z-index: 20;
+  padding-bottom: env(safe-area-inset-bottom);
+}
+
+.nav-btn {
+  flex: 1;
+  border: 0;
+  background: none;
+  color: var(--muted);
+  font-size: 11px;
+  cursor: pointer;
+  height: 100%;
+}
+
+.nav-btn span {
+  display: block;
+  font-size: 21px;
+  margin-bottom: 4px;
+}
+
+.nav-btn.active {
+  color: #dba5ff;
+}
+
+footer {
+  text-align: center;
+  padding: 25px 10px;
+  color: #625b72;
+  font-size: 10px;
+  letter-spacing: 2px;
+}
+
+@media (min-width: 600px) {
+  main {
+    padding-top: 25px;
+  }
+  .categories {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+  <div class="logo">AX<span>O</span>N</div>
+  <button class="help" onclick="showHelp()">HELP / SUPPORT</button>
+</header>
+
+<main>
+
+  <section id="home" class="page active">
+
+    <div class="hero">
+      <div class="hero-tag">⚡ NEXT-GEN TOURNAMENT ARENA</div>
+      <h1>PLAY HARD.<br><span>WIN BIG.</span></h1>
+      <p>Your arena. Your squad. Your victory.<br>Welcome to AXON Tournament Arena.</p>
+    </div>
+
+    <div class="section-title">
+      <span>🎮 Game Modes</span>
+      <small>CHOOSE YOUR ARENA</small>
+    </div>
+
+    <div class="categories">
+      <button class="category" onclick="selectMode('Battle Royale')">
+        <div class="icon">🏝️</div>
+        <h3>Battle Royale</h3>
+        <p>Solo · Duo · Squad</p>
+      </button>
+
+      <button class="category" onclick="selectMode('Clash Squad')">
+        <div class="icon">⚔️</div>
+        <h3>Clash Squad</h3>
+        <p>4 vs 4 battle</p>
+      </button>
+
+      <button class="category" onclick="selectMode('Lone Wolf 2v2')">
+        <div class="icon">🐺</div>
+        <h3>Lone Wolf 2v2</h3>
+        <p>Team up and fight</p>
+      </button>
+
+      <button class="category" onclick="selectMode('Lone Wolf 1v1')">
+        <div class="icon">🎯</div>
+        <h3>Lone Wolf 1v1</h3>
+        <p>One versus one</p>
+      </button>
+
+      <button class="category" onclick="selectMode('Only Head 2v2')">
+        <div class="icon">💥</div>
+        <h3>Only Head 2v2</h3>
+        <p>Headshot challenge</p>
+      </button>
+
+      <button class="category" onclick="selectMode('Only Head 1v1')">
+        <div class="icon">👑</div>
+        <h3>Only Head 1v1</h3>
+        <p>Precision challenge</p>
+      </button>
+
+      <button class="category" onclick="selectMode('Free Matches')">
+        <div class="icon">🆓</div>
+        <h3>Free Matches</h3>
+        <p>Play without entry fee</p>
+      </button>
+    </div>
+
+    <div class="section-title">
+      <span id="match-heading">🏆 Tournaments</span>
+      <small id="match-count">SAMPLE MATCHES</small>
+    </div>
+
+    <div class="tabs">
+      <button class="tab active" onclick="setTab('Upcoming',this)">Upcoming</button>
+      <button class="tab" onclick="setTab('Live',this)">🔴 Live</button>
+      <button class="tab" onclick="setTab('Completed',this)">Completed</button>
+    </div>
+
+    <div id="matches"></div>
+
+    <footer>AXON TOURNAMENT ARENA · PLAY FAIR</footer>
+  </section>
+
+  <section id="my-matches" class="page">
+    <div class="section-title"><span>📋 My Matches</span></div>
+    <div id="my-match-list" class="empty">
+      Abhi tumne koi tournament join nahi kiya hai.
+    </div>
+  </section>
+
+  <section id="profile" class="page">
+    <div class="section-title"><span>👤 My Profile</span></div>
+    <div class="profile-box">
+      <h3>Player Details</h3>
+      <p style="color:#9995ad;font-size:12px;margin-top:7px">
+        Apni basic details yahan save karo.
+      </p>
+      <label>Player Name</label>
+      <input id="player-name" placeholder="Apna in-game name">
+      <label>Free Fire UID</label>
+      <input id="player-uid" placeholder="Apni player UID">
+      <button class="join" style="margin-top:18px" onclick="saveProfile()">
+        Save Profile
+      </button>
+      <p id="profile-message" style="font-size:12px;margin-top:12px"></p>
+    </div>
+  </section>
+
+</main>
+
+<nav class="bottom-nav">
+  <button class="nav-btn active" onclick="navigate('home',this)">
+    <span>⌂</span>Home
+  </button>
+  <button class="nav-btn" onclick="navigate('my-matches',this)">
+    <span>▤</span>My Matches
+  </button>
+  <button class="nav-btn" onclick="navigate('profile',this)">
+    <span>♙</span>Profile
+  </button>
+</nav>
+
+<script>
+const tournaments = [
+  {
+    id: 1,
+    title: "Battle Royale — Solo",
+    mode: "Battle Royale",
+    status: "Upcoming",
+    fee: "₹10",
+    prize: "₹400",
+    slots: "48",
+    time: "Demo schedule"
+  },
+  {
+    id: 2,
+    title: "Clash Squad — 4v4",
+    mode: "Clash Squad",
+    status: "Upcoming",
+    fee: "₹20",
+    prize: "₹600",
+    slots: "8 Teams",
+    time: "Demo schedule"
+  },
+  {
+    id: 3,
+    title: "Lone Wolf — 1v1",
+    mode: "Lone Wolf 1v1",
+    status: "Live",
+    fee: "₹5",
+    prize: "₹100",
+    slots: "12",
+    time: "Demo match"
+  },
+  {
+    id: 4,
+    title: "Only Head — 2v2",
+    mode: "Only Head 2v2",
+    status: "Completed",
+    fee: "Free",
+    prize: "₹0",
+    slots: "24",
+    time: "Demo match"
+  },
+  {
+    id: 5,
+    title: "Free Battle Royale",
+    mode: "Free Matches",
+    status: "Upcoming",
+    fee: "Free",
+    prize: "Practice",
+    slots: "48",
+    time: "Demo schedule"
+  }
+];
+
+let currentTab = "Upcoming";
+let currentMode = null;
+
+function getJoined() {
+  try {
+    return JSON.parse(localStorage.getItem("axonJoined") || "[]");
+  } catch (e) {
+    return [];
+  }
+}
+
+function renderMatches() {
+  const root = document.getElementById("matches");
+  const list = tournaments.filter(t =>
+    t.status === currentTab &&
+    (!currentMode || t.mode === currentMode)
+  );
+
+  document.getElementById("match-heading").textContent =
+    currentMode ? "🎮 " + currentMode : "🏆 Tournaments";
+
+  document.getElementById("match-count").textContent =
+    list.length + " SAMPLE MATCH" + (list.length === 1 ? "" : "ES");
+
+  document.querySelectorAll(".tab").forEach(button => {
+    button.classList.toggle(
+      "active",
+      button.textContent.trim().replace("🔴 ", "") === currentTab
+    );
+  });
+
+  if (!list.length) {
+    root.innerHTML = '<div class="empty">Is category mein abhi koi sample match nahi hai.<br>Baad mein Admin Panel se real tournaments add karenge.</div>';
+    return;
+  }
+
+  root.innerHTML = list.map(t => `
+    <article class="match">
+      <div class="match-top">
+        <div>
+          <h3>${t.title}</h3>
+          <div class="mode">🎮 ${t.mode} · ${t.time}</div>
+        </div>
+        <span class="badge">${t.status}</span>
+      </div>
+      <div class="match-details">
+        <div class="detail">
+          <small>ENTRY FEE</small>
+          <strong>${t.fee}</strong>
+        </div>
+        <div class="detail">
+          <small>PRIZE</small>
+          <strong>${t.prize}</strong>
+        </div>
+        <div class="detail">
+          <small>SLOTS</small>
+          <strong>${t.slots}</strong>
+        </div>
+      </div>
+      <div class="match-bottom">
+        <button class="join" onclick="joinTournament(${t.id})">
+          ${t.status === "Upcoming" ? "View / Join (Preview)" : "View Match (Preview)"}
+        </button>
+      </div>
+    </article>
+  `).join("");
+}
+
+function setTab(tab, button) {
+  currentTab = tab;
+  renderMatches();
+}
+
+function selectMode(mode) {
+  currentMode = currentMode === mode ? null : mode;
+  currentTab = "Upcoming";
+  renderMatches();
+  document.querySelector(".section-title").scrollIntoView({behavior:"smooth"});
+}
+
+function navigate(page, button) {
+  document.querySelectorAll(".page").forEach(p => p.classList.remove("active"));
+  document.getElementById(page).classList.add("active");
+  document.querySelectorAll(".nav-btn").forEach(b => b.classList.remove("active"));
+  button.classList.add("active");
+
+  if (page === "my-matches") renderMyMatches();
+
+  window.scrollTo({top:0, behavior:"smooth"});
+}
+
+function joinTournament(id) {
+  const t = tournaments.find(item => item.id === id);
+  if (!t) return;
+
+  alert("Bhai, ye abhi design preview hai. Real registration, payment verification aur Admin Panel hum agle steps mein connect karenge.");
+}
+
+function renderMyMatches() {
+  const joined = getJoined();
+  const root = document.getElementById("my-match-list");
+
+  if (!joined.length) {
+    root.innerHTML = "Abhi koi real registration nahi hai. Registration feature baad mein connect hoga.";
+    root.className = "empty";
+    return;
+  }
+
+  root.innerHTML = joined.map(id => {
+    const t = tournaments.find(item => item.id === id);
+    return t ? `<p style="margin-bottom:12px">${t.title}</p>` : "";
+  }).join("");
+}
+
+function saveProfile() {
+  const name = document.getElementById("player-name").value.trim();
+  const uid = document.getElementById("player-uid").value.trim();
+
+  if (!name || !uid) {
+    document.getElementById("profile-message").textContent =
+      "Player Name aur UID dono bharo.";
+    return;
+  }
+
+  localStorage.setItem("axonProfile", JSON.stringify({name,uid}));
+  document.getElementById("profile-message").textContent =
+    "Profile is device par save ho gayi!";
+}
+
+function loadProfile() {
+  try {
+    const profile = JSON.parse(localStorage.getItem("axonProfile") || "null");
+    if (profile) {
+      document.getElementById("player-name").value = profile.name || "";
+      document.getElementById("player-uid").value = profile.uid || "";
+    }
+  } catch(e) {}
+}
+
+function showHelp() {
+  alert("AXON Help & Support\n\nOfficial support contact abhi set nahi hua hai. Launch se pehle support details add karenge.");
+}
+
+renderMatches();
+loadProfile();
+</script>
+
+</body>
+  </html>
